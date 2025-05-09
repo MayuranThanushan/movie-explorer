@@ -1,8 +1,10 @@
 import React from "react";
 import { Card, CardMedia, CardContent, Typography, Box } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const MovieCard = ({ movie }) => {
   return (
+    <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none" }}>
     <Card sx={{ width: 200 }}>
       <CardMedia
         component="img"
@@ -19,6 +21,7 @@ const MovieCard = ({ movie }) => {
         </Typography>
       </CardContent>
     </Card>
+    </Link>
   );
 };
 
