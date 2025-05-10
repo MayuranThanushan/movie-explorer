@@ -1,14 +1,23 @@
-import React, { useContext } from "react";
-import {Card, CardMedia, CardContent, Typography, IconButton, CardActions, Box,} from "@mui/material";
+import React from "react";
+import { Card, CardMedia, CardContent, Typography, IconButton, CardActions, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { FavoritesContext } from "../context/FavoritesContext";
-
+import { useAppContext } from "../context/AppContext";
 
 const MovieCard = ({ movie }) => {
-  const { addFavorite, removeFavorite, isFavorite } = useContext(FavoritesContext);
-  const fav = isFavorite(movie.id);
+  const { state, dispatch } = useAppContext();
+
+  const fav = state.favoriteMovies.some((favMovie) => favMovie.id === movie.id);
+
+  const handleFavorite = (e) => {
+    e.preventDefault();
+    if (fav) {
+      dispatch({ type: "REMOVE_FAVORITE", payload: movie.id });
+    } else {
+      dispatch({ type: "ADD_FAVORITE", payload: movie });
+    }
+  };
 
   return (
     <Box sx={{ position: "relative", width: 200 }}>
@@ -41,10 +50,7 @@ const MovieCard = ({ movie }) => {
         }}
       >
         <IconButton
-          onClick={(e) => {
-            e.preventDefault();
-            fav ? removeFavorite(movie.id) : addFavorite(movie);
-          }}
+          onClick={handleFavorite}
           color={fav ? "error" : "default"}
         >
           {fav ? <FavoriteIcon /> : <FavoriteBorderIcon />}

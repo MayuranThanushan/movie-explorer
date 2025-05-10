@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
-import { AppBar, Toolbar, Typography, IconButton, Box, Button,} from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
-import { ColorModeContext } from "../context/ThemeContext";
+import React from "react";
+import { AppBar, Toolbar, Typography, Box, Button, Badge } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
-  const { toggleColorMode, mode } = useContext(ColorModeContext);
+  const { state } = useAppContext();
 
   return (
     <AppBar position="static" color="primary">
@@ -26,13 +26,12 @@ const Navbar = () => {
             variant="text"
             sx={{ color: "inherit", textTransform: "none" }}
           >
-            Favorites
+            <Badge badgeContent={state.favoriteMovies.length} color="secondary">
+              Favorites
+            </Badge>
           </Button>
         </Box>
-
-        <IconButton onClick={toggleColorMode} color="inherit">
-          {mode === "light" ? <Brightness4 /> : <Brightness7 />}
-        </IconButton>
+        <ThemeToggle />
       </Toolbar>
     </AppBar>
   );

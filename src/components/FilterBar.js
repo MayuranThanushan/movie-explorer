@@ -7,21 +7,33 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
+import { useAppContext } from "../context/AppContext";
 import { useGenres } from "../hooks/useGenres";
 
-const FilterBar = ({ filters, setFilters }) => {
+const FilterBar = () => {
+  const { state, dispatch } = useAppContext();
   const genres = useGenres();
+
+  const handleGenreChange = (e) => {
+    dispatch({ type: "SET_GENRE", payload: e.target.value });
+  };
+
+  const handleYearChange = (e) => {
+    dispatch({ type: "SET_YEAR", payload: e.target.value });
+  };
+
+  const handleRatingChange = (e) => {
+    dispatch({ type: "SET_RATING", payload: e.target.value });
+  };
 
   return (
     <Box display="flex" gap={2} flexWrap="wrap" mb={3}>
       <FormControl size="small" sx={{ minWidth: 150 }}>
         <InputLabel>Genre</InputLabel>
         <Select
-          value={filters.genre || ""}
+          value={state.filters.genre || ""}
           label="Genre"
-          onChange={(e) =>
-            setFilters((prev) => ({ ...prev, genre: e.target.value }))
-          }
+          onChange={handleGenreChange}
         >
           <MenuItem value="">All</MenuItem>
           {genres.map((genre) => (
@@ -36,10 +48,8 @@ const FilterBar = ({ filters, setFilters }) => {
         size="small"
         label="Year"
         type="number"
-        value={filters.year || ""}
-        onChange={(e) =>
-          setFilters((prev) => ({ ...prev, year: e.target.value }))
-        }
+        value={state.filters.year || ""}
+        onChange={handleYearChange}
       />
 
       <TextField
@@ -47,10 +57,8 @@ const FilterBar = ({ filters, setFilters }) => {
         label="Min Rating"
         type="number"
         inputProps={{ min: 0, max: 10, step: 0.1 }}
-        value={filters.rating || ""}
-        onChange={(e) =>
-          setFilters((prev) => ({ ...prev, rating: e.target.value }))
-        }
+        value={state.filters.rating || ""}
+        onChange={handleRatingChange}
       />
     </Box>
   );

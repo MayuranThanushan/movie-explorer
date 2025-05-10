@@ -4,6 +4,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import ThemeProvider from "./context/ThemeContext";
 import { FavoritesProvider } from "./context/FavoritesContext";
+import { AppProvider } from "./context/AppContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -11,7 +12,9 @@ root.render(
     <BrowserRouter>
       <ThemeProvider>
         <FavoritesProvider>
-          <App />
+          <AppProvider>
+            <App />
+          </AppProvider>
         </FavoritesProvider>
       </ThemeProvider>
     </BrowserRouter>
