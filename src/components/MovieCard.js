@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card, CardMedia, CardContent, Typography, IconButton, CardActions, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useAppContext } from "../context/AppContext";
+import { FavoritesContext } from "../context/FavoritesContext";
 
 const MovieCard = ({ movie }) => {
-  const { state, dispatch } = useAppContext();
+  const { favorites, addFavorite, removeFavorite, isFavorite } = useContext(FavoritesContext);
   const [imageError, setImageError] = useState(false);
 
-  const fav = state.favoriteMovies.some((favMovie) => favMovie.id === movie.id);
+  const fav = isFavorite(movie.id);
 
   const handleFavorite = (e) => {
     e.preventDefault();
     if (fav) {
-      dispatch({ type: "REMOVE_FAVORITE", payload: movie.id });
+      removeFavorite(movie.id);
     } else {
-      dispatch({ type: "ADD_FAVORITE", payload: movie });
+      addFavorite(movie);
     }
   };
 
