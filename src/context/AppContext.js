@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, useEffect } from "react";
 
 const AppContext = createContext();
 
 const initialState = {
   searchQuery: "",
-  favoriteMovies: [],
-  theme: "light",
+  favoriteMovies: JSON.parse(localStorage.getItem("favoriteMovies")) || [],
+  theme: localStorage.getItem("theme") || "light",
   filters: {
     genre: "",
     year: "",
@@ -18,14 +18,17 @@ const reducer = (state, action) => {
     case "SET_SEARCH_QUERY":
       return { ...state, searchQuery: action.payload };
     case "ADD_FAVORITE":
-      return { ...state, favoriteMovies: [...state.favoriteMovies, action.payload] };
+      const updatedFavoritesAdd = [...state.favoriteMovies, action.payload];
+      localStorage.setItem("favoriteMovies", JSON.stringify(updatedFavoritesAdd));
+      return { ...state, favoriteMovies: updatedFavoritesAdd };
     case "REMOVE_FAVORITE":
-      return {
-        ...state,
-        favoriteMovies: state.favoriteMovies.filter((movie) => movie.id !== action.payload),
-      };
+      const updatedFavoritesRemove = state.favoriteMovies.filter((movie) => movie.id !== action.payload);
+      localStorage.setItem("favoriteMovies", JSON.stringify(updatedFavoritesRemove));
+      return { ...state, favoriteMovies: updatedFavoritesRemove };
     case "TOGGLE_THEME":
-      return { ...state, theme: state.theme === "light" ? "dark" : "light" };
+      const newTheme = state.theme === "light" ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      return { ...state, theme: newTheme };
     case "SET_FILTERS":
       return { ...state, filters: action.payload };
     default:
@@ -35,6 +38,9 @@ const reducer = (state, action) => {
 
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+  }, [state.theme]);
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>

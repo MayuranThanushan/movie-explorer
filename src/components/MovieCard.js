@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardMedia, CardContent, Typography, IconButton, CardActions, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -7,6 +7,7 @@ import { useAppContext } from "../context/AppContext";
 
 const MovieCard = ({ movie }) => {
   const { state, dispatch } = useAppContext();
+  const [imageError, setImageError] = useState(false);
 
   const fav = state.favoriteMovies.some((favMovie) => favMovie.id === movie.id);
 
@@ -19,6 +20,10 @@ const MovieCard = ({ movie }) => {
     }
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   return (
     <Box sx={{ position: "relative", width: 200 }}>
       <Link to={`/movie/${movie.id}`} style={{ textDecoration: "none", color: "inherit" }}>
@@ -26,11 +31,12 @@ const MovieCard = ({ movie }) => {
           <CardMedia
             component="img"
             height="300"
-            image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            image={imageError ? "/path/to/default-image.jpg" : `https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
+            onError={handleImageError}
           />
           <CardContent>
-            <Typography variant="subtitle1" fontWeight="bold">
+            <Typography variant="subtitle1" fontWeight="bold" noWrap>
               {movie.title}
             </Typography>
             <Typography variant="body2">
@@ -49,10 +55,7 @@ const MovieCard = ({ movie }) => {
           borderRadius: "50%",
         }}
       >
-        <IconButton
-          onClick={handleFavorite}
-          color={fav ? "error" : "default"}
-        >
+        <IconButton onClick={handleFavorite} color={fav ? "error" : "default"}>
           {fav ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
       </CardActions>
