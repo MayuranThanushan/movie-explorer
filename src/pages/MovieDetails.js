@@ -75,15 +75,29 @@ const MovieDetails = () => {
 
           {trailerUrl && (
             <Box mt={3}>
-              <Button
-                variant="contained"
-                color="error"
-                href={trailerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Watch Trailer
-              </Button>
+              <Typography variant="h6" gutterBottom>Trailer</Typography>
+              <Box
+                component="iframe"
+                width="100%"
+                height="400"
+                src={trailerUrl.replace("watch?v=", "embed/")}
+                title="YouTube Trailer"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                sx={{ border: 0, borderRadius: 2 }}
+              />
+
+              <Box mt={2}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  href={trailerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Watch on YouTube
+                </Button>
+              </Box>
             </Box>
           )}
         </Grid>
