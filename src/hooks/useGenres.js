@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_KEY = "68b0765a6d5c51653ecdd4bda511cc24";
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
 export const useGenres = () => {
   const [genres, setGenres] = useState([]);

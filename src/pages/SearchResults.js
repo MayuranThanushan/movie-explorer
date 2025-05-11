@@ -4,7 +4,7 @@ import axios from "axios";
 import MovieCard from "../components/MovieCard";
 import FilterBar from "../components/FilterBar";
 
-const API_KEY = "68b0765a6d5c51653ecdd4bda511cc24";
+const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
 const SearchResults = ({ query }) => {
   const [results, setResults] = useState([]);
