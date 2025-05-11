@@ -1,14 +1,15 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Box, Button, Badge } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, Button, Badge, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import ThemeToggle from "./ThemeToggle";
+import MenuIcon from "@mui/icons-material/Menu"; 
 
 const Navbar = () => {
   const { state } = useAppContext();
 
   return (
-    <AppBar position="static" color="primary">
+    <AppBar position="sticky" color="primary">
       <Toolbar>
         <Typography
           component={Link}
@@ -19,19 +20,34 @@ const Navbar = () => {
           Movie Explorer
         </Typography>
 
-        <Box sx={{ mr: 2 }}>
+        <Box sx={{ display: { xs: "block", md: "none" }, mr: 2 }}>
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+        </Box>
+
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button
             component={Link}
             to="/favorites"
             variant="text"
-            sx={{ color: "inherit", textTransform: "none" }}
+            sx={{
+              color: "inherit",
+              textTransform: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+            }}
           >
             <Badge badgeContent={state.favoriteMovies.length} color="secondary">
               Favorites
             </Badge>
           </Button>
+
+          <Box sx={{ ml: 2 }}>
+            <ThemeToggle />
+          </Box>
         </Box>
-        <ThemeToggle />
       </Toolbar>
     </AppBar>
   );

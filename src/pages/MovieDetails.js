@@ -7,7 +7,8 @@ import {
   Chip,
   Grid,
   CircularProgress,
-  Button
+  Button,
+  Divider,
 } from "@mui/material";
 
 const MovieDetails = () => {
@@ -22,7 +23,7 @@ const MovieDetails = () => {
         const [detailsRes, creditsRes, videosRes] = await Promise.all([
           tmdb.get(`/movie/${id}`),
           tmdb.get(`/movie/${id}/credits`),
-          tmdb.get(`/movie/${id}/videos`)
+          tmdb.get(`/movie/${id}/videos`),
         ]);
 
         setMovie(detailsRes.data);
@@ -42,40 +43,76 @@ const MovieDetails = () => {
     fetchDetails();
   }, [id]);
 
-  if (!movie) return <CircularProgress sx={{ mt: 5, display: "block", mx: "auto" }} />;
+  if (!movie)
+    return (
+      <CircularProgress sx={{ mt: 5, display: "block", mx: "auto" }} />
+    );
 
   return (
-    <Box p={3}>
+    <Box p={3} sx={{ backgroundColor: "background.default", minHeight: "100vh" }}>
       <Grid container spacing={4}>
         <Grid item xs={12} md={4}>
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
             alt={movie.title}
-            style={{ width: "100%", borderRadius: 8 }}
+            style={{
+              width: "100%",
+              borderRadius: 10,
+              boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+            }}
           />
         </Grid>
+
         <Grid item xs={12} md={8}>
-          <Typography variant="h4">{movie.title}</Typography>
-          <Typography variant="subtitle1" color="textSecondary" mb={1}>
+          <Typography variant="h3" fontWeight="bold" gutterBottom>
+            {movie.title}
+          </Typography>
+
+          <Typography variant="h6" color="textSecondary" mb={2}>
             Release Date: {movie.release_date}
           </Typography>
+
           <Box mb={2}>
             {movie.genres.map((genre) => (
-              <Chip key={genre.id} label={genre.name} sx={{ mr: 1, mb: 1 }} />
+              <Chip
+                key={genre.id}
+                label={genre.name}
+                sx={{
+                  mr: 1,
+                  mb: 1,
+                  backgroundColor: "primary.light",
+                  color: "primary.contrastText",
+                  fontWeight: "bold",
+                }}
+              />
             ))}
           </Box>
-          <Typography mb={2}>{movie.overview}</Typography>
 
-          <Typography variant="h6">Cast</Typography>
-          {cast.map((actor) => (
-            <Typography key={actor.id}>
-              {actor.name} as {actor.character}
-            </Typography>
-          ))}
+          <Typography variant="body1" mb={2}>
+            {movie.overview}
+          </Typography>
+
+          <Divider sx={{ my: 3 }} />
+
+          <Typography variant="h5" mb={1} fontWeight="bold">
+            Cast
+          </Typography>
+
+          <Grid container spacing={1}>
+            {cast.map((actor) => (
+              <Grid item key={actor.id} xs={12} sm={6} md={4}>
+                <Typography variant="body2" fontWeight="medium">
+                  <strong>{actor.name}</strong> as <em>{actor.character}</em>
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
 
           {trailerUrl && (
             <Box mt={3}>
-              <Typography variant="h6" gutterBottom>Trailer</Typography>
+              <Typography variant="h5" gutterBottom>
+                Trailer
+              </Typography>
               <Box
                 component="iframe"
                 width="100%"
@@ -84,7 +121,11 @@ const MovieDetails = () => {
                 title="YouTube Trailer"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                sx={{ border: 0, borderRadius: 2 }}
+                sx={{
+                  border: 0,
+                  borderRadius: 2,
+                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.15)",
+                }}
               />
 
               <Box mt={2}>
@@ -94,6 +135,10 @@ const MovieDetails = () => {
                   href={trailerUrl}
                   target="_blank"
                   rel="noopener noreferrer"
+                  sx={{
+                    "&:hover": { backgroundColor: "error.dark" },
+                    transition: "background-color 0.3s",
+                  }}
                 >
                   Watch on YouTube
                 </Button>

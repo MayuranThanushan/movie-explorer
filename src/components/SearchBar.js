@@ -25,16 +25,27 @@ const SearchBar = () => {
     <Box
       component="form"
       onSubmit={handleSearch}
-      sx={{ display: "flex", justifyContent: "center", my: 4 }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        my: 4,
+        gap: 2,
+        flexDirection: { xs: "column", sm: "row" },
+      }}
     >
       <TextField
         label="Search Movies"
         variant="outlined"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        sx={{ width: "60%" }}
+        sx={{
+          width: { xs: "80%", sm: "60%" },
+          backgroundColor: "white",
+        }}
+        placeholder="Enter movie title"
       />
-      <Button type="submit" variant="contained" sx={{ ml: 2 }}>
+      <Button type="submit" variant="contained" sx={{ height: "100%" }}>
         Search
       </Button>
     </Box>

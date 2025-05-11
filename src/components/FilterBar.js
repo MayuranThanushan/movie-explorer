@@ -6,6 +6,7 @@ import {
   Select,
   MenuItem,
   TextField,
+  Typography,
 } from "@mui/material";
 import { useAppContext } from "../context/AppContext";
 import { useGenres } from "../hooks/useGenres";
@@ -27,13 +28,29 @@ const FilterBar = () => {
   };
 
   return (
-    <Box display="flex" gap={2} flexWrap="wrap" mb={3}>
+    <Box
+      display="flex"
+      flexDirection={{ xs: "column", sm: "row" }}
+      gap={2}
+      flexWrap="wrap"
+      mb={3}
+      sx={{ justifyContent: "space-between" }}
+    >
       <FormControl size="small" sx={{ minWidth: 150 }}>
         <InputLabel>Genre</InputLabel>
         <Select
           value={state.filters.genre || ""}
           label="Genre"
           onChange={handleGenreChange}
+          sx={{
+            borderRadius: 2,
+            '& .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'primary.main',
+            },
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: 'primary.dark',
+            },
+          }}
         >
           <MenuItem value="">All</MenuItem>
           {genres.map((genre) => (
@@ -50,6 +67,15 @@ const FilterBar = () => {
         type="number"
         value={state.filters.year || ""}
         onChange={handleYearChange}
+        sx={{
+          minWidth: 150,
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'primary.main',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'primary.dark',
+          },
+        }}
       />
 
       <TextField
@@ -59,6 +85,15 @@ const FilterBar = () => {
         inputProps={{ min: 0, max: 10, step: 0.1 }}
         value={state.filters.rating || ""}
         onChange={handleRatingChange}
+        sx={{
+          minWidth: 150,
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'primary.main',
+          },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'primary.dark',
+          },
+        }}
       />
     </Box>
   );

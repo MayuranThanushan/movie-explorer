@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography, CircularProgress, Divider } from "@mui/material";
 import axios from "axios";
 import MovieCard from "../components/MovieCard";
 import FilterBar from "../components/FilterBar";
@@ -15,8 +15,10 @@ const SearchResults = ({ query }) => {
     year: "",
     rating: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const fetchResults = async () => {
+    setLoading(true);
     try {
       const res = await axios.get(
         `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}&page=${page}`
@@ -49,6 +51,7 @@ const SearchResults = ({ query }) => {
     } catch (error) {
       console.error("Search error", error);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -64,27 +67,52 @@ const SearchResults = ({ query }) => {
   }, [query, page, filters]);
 
   return (
-    <Box p={3}>
-      <Typography variant="h5" mb={2}>
+    <Box p={3} sx={{ backgroundColor: "background.default", minHeight: "100vh" }}>
+      <Typography variant="h4" mb={2} align="center" color="primary">
         Search Results for: "{query}"
       </Typography>
 
       <FilterBar filters={filters} setFilters={setFilters} />
 
-      <Grid container spacing={2}>
-        {results.map((movie) => (
-          <Grid item key={movie.id}>
-            <MovieCard movie={movie} />
-          </Grid>
-        ))}
-      </Grid>
+      <Divider sx={{ my: 3 }} />
 
-      {hasMore && (
-        <Box textAlign="center" mt={3}>
-          <Button variant="contained" onClick={() => setPage(page + 1)}>
-            Load More
-          </Button>
+      {loading ? (
+        <Box display="flex" justifyContent="center" mt={5}>
+          <CircularProgress />
         </Box>
+      ) : (
+        <>
+          <Grid container spacing={3} justifyContent="center">
+            {results.map((movie) => (
+              <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
+                <MovieCard movie={movie} />
+              </Grid>
+            ))}
+          </Grid>
+
+          {hasMore && (
+            <Box textAlign="center" mt={4}>
+              <Button
+                variant="contained"
+                color="primary"
+                size="large"
+                onClick={() => setPage(page + 1)}
+                sx={{
+                  "&:hover": { backgroundColor: "primary.dark" },
+                  transition: "all 0.3s",
+                }}
+              >
+                Load More
+              </Button>
+            </Box>
+          )}
+
+          {!hasMore && results.length === 0 && (
+            <Typography variant="h6" color="text.secondary" textAlign="center" mt={3}>
+              No results found.
+            </Typography>
+          )}
+        </>
       )}
     </Box>
   );
