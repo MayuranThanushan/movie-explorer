@@ -1,28 +1,35 @@
 import React, { useContext } from "react";
 import { FavoritesContext } from "../context/FavoritesContext";
-import { Grid, Typography, Box } from "@mui/material";
 import MovieCard from "../components/MovieCard";
+import { Grid, Typography, Divider } from "@mui/material";
 
 const Favorites = () => {
   const { favorites } = useContext(FavoritesContext);
 
   return (
-    <Box p={3}>
-      <Typography variant="h4" mb={2}>
-        Your Favorite Movies
+    <div>
+      <Typography variant="h5" align="center" mt={2}>
+        Your Favorites
       </Typography>
+      
+      <Typography variant="body1" align="center" sx={{ mb: 3 }}>
+        You have {favorites.length} favorite movies.
+      </Typography>
+
       {favorites.length === 0 ? (
-        <Typography>No favorites yet.</Typography>
+        <Typography variant="h6" align="center" color="textSecondary">
+          No favorite movies added yet.
+        </Typography>
       ) : (
-        <Grid container spacing={2}>
+        <Grid container spacing={3} justifyContent="center" my={2}>
           {favorites.map((movie) => (
-            <Grid item key={movie.id}>
+            <Grid item key={movie.id} xs={12} sm={6} md={4}>
               <MovieCard movie={movie} />
             </Grid>
           ))}
         </Grid>
       )}
-    </Box>
+    </div>
   );
 };
 

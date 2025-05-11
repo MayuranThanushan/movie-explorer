@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+# Movie Explorer App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Overview
 
-## Available Scripts
+Movie Explorer is a web application that allows users to search for movies, view detailed information, and discover trending films. The app fetches real-time data from The Movie Database (TMDb) API and provides an intuitive user experience with a search bar, movie details, and theme toggling functionality.
 
-In the project directory, you can run:
+The app also supports the ability to save favorite movies, search history, and local persistence of user preferences like theme and favorite movies.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Search Functionality**: Users can type movie names to find matching results.
+- **Trending Movies**: A section that displays trending movies from the API.
+- **Movie Details**: Clicking on any movie poster shows detailed information, including:
+  - Overview
+  - Genre
+  - Cast
+  - Rating
+  - Trailer Link
+- **Light/Dark Mode**: Toggle between light and dark themes for a better user experience.
+- **Favorites**: Users can save their favorite movies, which are stored in `localStorage` for persistence.
+- **Search History**: The last searched movie is stored in `localStorage`.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## API Usage
 
-### `npm test`
+The app fetches movie data from The Movie Database (TMDb) API. You can sign up for a free API key at [TMDb API](https://developers.themoviedb.org/3/getting-started/introduction).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### How to Get an API Key:
 
-### `npm run build`
+1. Go to [TMDb API](https://www.themoviedb.org/documentation/api).
+2. Sign up or log in to your TMDb account.
+3. Navigate to your account settings and find the **API** section.
+4. Generate an API key and copy it.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### API Configuration:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To use the app, you'll need an API key. Add the API key to your `.env` file in the following format:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+REACT_APP_TMDB_API_KEY=your_api_key_here
+````
 
-### `npm run eject`
+## Technologies Used
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* **React**: JavaScript library for building user interfaces.
+* **Material UI (MUI)**: UI component library for styling.
+* **TMDb API**: Movie data provider.
+* **Vercel**: For app deployment.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How to Run Locally
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Follow these steps to run the project locally on your machine:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Clone the Repository**:
 
-## Learn More
+   ```bash
+   git clone https://github.com/your-username/movie-explorer-app.git
+   cd movie-explorer-app
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. **Install Dependencies**:
+   Install all required dependencies using npm:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   npm install
+   ```
 
-### Code Splitting
+3. **Set Up the API Key**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+   * Add your API key to the `.env` file at the root of the project:
 
-### Analyzing the Bundle Size
+     ```bash
+     REACT_APP_TMDB_API_KEY=your_api_key_here
+     ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+4. **Start the Development Server**:
+   To start the app locally, run:
 
-### Making a Progressive Web App
+   ```bash
+   npm start
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+5. **Visit the App**:
+   Open your browser and visit `http://localhost:3000` to see the app in action.
 
-### Advanced Configuration
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Feel free to fork the repository and submit pull requests. To contribute:
 
-### Deployment
+1. **Fork the Repo**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+   * Go to the repository page and click **Fork** at the top-right corner.
 
-### `npm run build` fails to minify
+2. **Create a New Branch**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+   ```bash
+   git checkout -b feature-name
+   ```
+
+3. **Make Your Changes**:
+
+   * Add your changes or features.
+
+4. **Commit Your Changes**:
+
+   ```bash
+   git commit -am 'Add feature-name'
+   ```
+
+5. **Push to the Branch**:
+
+   ```bash
+   git push origin feature-name
+   ```
+
+6. **Submit a Pull Request**:
+
+   * Open a pull request and explain your changes.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Project Structure
+
+Here’s a breakdown of the key files and directories in the project:
+
+* **src/**
+
+  * **components/**: Contains all the React components (e.g., MovieCard, SearchBar, MovieDetails, etc.).
+  * **context/**: Contains files for managing global state (if using React Context API).
+  * **hooks/**: Custom React hooks for reusable logic.
+  * **App.js**: Main app component where routing and state management are handled.
+  * **index.js**: Entry point of the application.
+* **.env**: Stores the TMDb API key and other environment variables.
+* **public/**: Contains static files like the `index.html`, app icons, and images.
+
+## Acknowledgements
+
+* [The Movie Database (TMDb)](https://www.themoviedb.org/) for providing the movie data API.
+* [Material UI](https://mui.com/) for the beautiful and responsive UI components.
+* [Vercel](https://vercel.com) for easy deployment.
+
